@@ -15,4 +15,4 @@ def post():
     return render_template("receive.html", name = name, detail=detail, time=time)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run()
