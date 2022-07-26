@@ -1,4 +1,5 @@
 from flask import Flask, render_template, request
+import datetime
 
 app = Flask(__name__)
 
@@ -8,8 +9,10 @@ def index():
 
 @app.route("/receive", methods=["post"])
 def post():
-    text = request.form["name"]
-    return render_template("receive.html", name = text)
+    name = request.form["name"]
+    detail = request.form["detail"]
+    time = datetime.datetime.now()
+    return render_template("receive.html", name = name, detail=detail, time=time)
 
 if __name__ == '__main__':
     app.run(debug=True)
