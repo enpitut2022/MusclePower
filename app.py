@@ -5,7 +5,8 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/muscle'
+app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://dorkfibkuvlyob:1db04b410515df5d6a68a6fb88ba5272d7e5c7f5951442b1997441b0b5ef2ab5@ec2-34-235-31-124.compute-1.amazonaws.com:5432/d8b4bie8clcibc'
+#適宜書き換えて下さい
 #リモートの場合は 'postgresql://dorkfibkuvlyob:1db04b410515df5d6a68a6fb88ba5272d7e5c7f5951442b1997441b0b5ef2ab5@ec2-34-235-31-124.compute-1.amazonaws.com:5432/d8b4bie8clcibc'
 #ローカルの場合は 'postgresql://localhost/muscle'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -30,7 +31,8 @@ def index():
 @app.route('/detail/<int:id>')
 def detail(id):
     teamdata = Team.query.get(id)
-    return render_template("detail.html", td=teamdata)
+    members = Member.query.filter_by(teamid=id)
+    return render_template("detail.html", td=teamdata, ms=members)
 
 @app.route('/join', methods=["post"])
 def join():

@@ -11,6 +11,12 @@
             <input type="hidden" name="teamid" value="{{td.id}}">
             <input type="submit" value="参加">
         </form>
+        <h2>参加者一覧</h2>
+        <p>
+            {% for member in ms %}
+                {{ member.name }} 
+            {% endfor %}
+        </p>
         <a href="/">戻る</a>
     </body>
 </html>
