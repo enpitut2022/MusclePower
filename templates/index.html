@@ -9,5 +9,8 @@
         <a href="/walking">グループ1</a>
         <a href="/sixpad">グループ2</a>
         <a href="/squat">グループ3</a>
+        {% for team in teams %} 
+            <p>{{ team.name }}</p>
+        {% endfor %}
     </body>
 </html>
