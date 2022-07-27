@@ -1,10 +1,11 @@
 from flask import Flask, render_template, request
 import datetime
 from flask_sqlalchemy import SQLAlchemy
+import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/muscle'
+app.config['SQLALCHEMY_DATABASE_URI'] = os.environ.get('DATABASE_URL') or 'postgresql://localhost/muscle'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db = SQLAlchemy(app)
@@ -37,7 +38,6 @@ def sixpad():
 @app.route('/squat')
 def squat():
     return render_template("squat.html")
-"""
 
 @app.route("/receive", methods=["post"])
 def post():
@@ -45,6 +45,7 @@ def post():
     detail = request.form["detail"]
     time = datetime.datetime.now()
     return render_template("receive.html", name = name, detail=detail, time=time)
+"""
 
 if __name__ == '__main__':
     app.run()
