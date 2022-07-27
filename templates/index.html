@@ -6,11 +6,13 @@
     <body>
         <h1>走れ三日坊主</h1>
         <p>グループ選択</p>
+        <!--
         <a href="/walking">グループ1</a>
         <a href="/sixpad">グループ2</a>
         <a href="/squat">グループ3</a>
+        -->
         {% for team in teams %} 
-            <p>{{ team.name }}</p>
+            <a href='/detail/{{ team.id }}'>{{ team.name }}</a>
         {% endfor %}
     </body>
 </html>

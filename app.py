@@ -19,6 +19,13 @@ def index():
     teams = Team.query.all()
     return render_template("index.html", teams = teams)
 
+@app.route('/detail/<int:id>')
+def detail(id):
+    teamdata = Team.query.get(id)
+    return render_template("detail.html", td=teamdata)
+
+"""
+不必要になったコード(念の為残しておく)
 @app.route('/walking')
 def walking():
     return render_template("walking.html")
@@ -30,6 +37,7 @@ def sixpad():
 @app.route('/squat')
 def squat():
     return render_template("squat.html")
+"""
 
 @app.route("/receive", methods=["post"])
 def post():
