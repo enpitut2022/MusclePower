@@ -6,11 +6,16 @@
     <body>
         <h1>{{ td.name }}</h1>
         <p>{{ td.description }}</p>
-        <form action="/join" method="post">
-            <input type="text" name="name" required> 
-            <input type="hidden" name="teamid" value="{{td.id}}">
-            <input type="submit" value="参加">
-        </form>
+        <h2>名前入力フォーム</h2>
+        <div>
+            <form action="/join" method="post">
+                名前:
+                <input type="text" name="name" placeholder="taro" required> 
+                <input type="hidden" name="teamid" value="{{td.id}}">
+                <input type="submit" value="参加">
+            </form>
+        </div>
+        
         <h2>参加者一覧</h2>
         <p>
             {% for member in ms %}
