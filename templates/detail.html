@@ -22,6 +22,15 @@
                 {{ member.name }} 
             {% endfor %}
         </p>
+
+        <form action="/log" method="post">
+            名前:
+            <input type="text" name="name" placeholder="taro" required> 
+            <input type="radio" name="start_finish" value="start">開始
+            <input type="radio" name="start_finish" value="finish">終了
+            <input type="submit" value="送信">
+        </form>
+
         <a href="/">戻る</a>
     </body>
 </html>
