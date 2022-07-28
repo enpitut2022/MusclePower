@@ -44,8 +44,11 @@ def index():
 @app.route('/detail/<int:id>')
 def detail(id):
     teamdata = Team.query.get(id)
-    members = Member.query.filter_by(teamid=id)
-    return render_template("detail.html", td=teamdata, ms=members)
+    members = Member.query.filter_by(teamid=id).all()
+    members_number = len(members)
+    logs = Log.query.filter_by(teamid=id).all()
+    logs_reverse = list(reversed(logs))
+    return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number)
 
 # 名前の登録
 @app.route('/join', methods=["post"])
@@ -57,14 +60,14 @@ def join():
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 
-# ログの表示
+# ログの登録
 @app.route('/log', methods=["post"])
 def log():
     name = request.form["name"]
     teamid = request.form["teamid"]
     start_finish = request.form["start_finish"]
-    datetime = request.form["datetime"]
-    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=datetime)
+    dt = datetime.datetime.now()
+    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=dt)
     db.session.add(newLog)
     db.session.commit()
     return redirect("/detail/"+str(teamid))
