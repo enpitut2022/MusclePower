@@ -26,6 +26,14 @@ class Member(db.Model):
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
 
+# データベースのlogテーブルの定義
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    teamid = db.Column(db.Integer)
+    datetime = db.Column(db.DateTime)
+    start_finish = db.Column(db.String(10))
+
 # ルートページ(最初のページ)
 @app.route('/')
 def index():
@@ -36,8 +44,11 @@ def index():
 @app.route('/detail/<int:id>')
 def detail(id):
     teamdata = Team.query.get(id)
-    members = Member.query.filter_by(teamid=id)
-    return render_template("detail.html", td=teamdata, ms=members)
+    members = Member.query.filter_by(teamid=id).all()
+    members_number = len(members)
+    logs = Log.query.filter_by(teamid=id).all()
+    logs_reverse = list(reversed(logs))
+    return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number)
 
 # 名前の登録
 @app.route('/join', methods=["post"])
@@ -46,6 +57,18 @@ def join():
     teamid = request.form["teamid"]
     newMember = Member(name=name, teamid=teamid)
     db.session.add(newMember)
+    db.session.commit()
+    return redirect("/detail/"+str(teamid))
+
+# ログの登録
+@app.route('/log', methods=["post"])
+def log():
+    name = request.form["name"]
+    teamid = request.form["teamid"]
+    start_finish = request.form["start_finish"]
+    dt = datetime.datetime.now()
+    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=dt)
+    db.session.add(newLog)
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 

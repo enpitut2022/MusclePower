@@ -22,6 +22,21 @@
                 {{ member.name }} 
             {% endfor %}
         </p>
+        <p>人数: {{ mn }}人</p>
+        <h2>運動はじめる</h2>
+        <form action="/log" method="post">
+            名前:
+            <input type="text" name="name" placeholder="taro" required> 
+            <input type="radio" name="start_finish" value="start" checked>開始
+            <input type="radio" name="start_finish" value="finish">終了
+            <input type="hidden" name="teamid" value="{{td.id}}">
+            <input type="submit" value="送信">
+        </form>
+        <h2>TL</h2>
+        {% for log in logs %}
+            <p>{{ log.datetime }}に{{ log.name }}さんが運動を{{ log.start_finish }}しました!
+            </p>
+        {% endfor %}
         <a href="/">戻る</a>
     </body>
 </html>
