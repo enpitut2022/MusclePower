@@ -26,6 +26,14 @@ class Member(db.Model):
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
 
+# データベースのlogテーブルの定義
+class Log(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.String(64))
+    teamid = db.Column(db.Integer)
+    datetime = db.Column(db.DateTime)
+    start_finish = db.Column(db.String(10))
+
 # ルートページ(最初のページ)
 @app.route('/')
 def index():
@@ -46,6 +54,18 @@ def join():
     teamid = request.form["teamid"]
     newMember = Member(name=name, teamid=teamid)
     db.session.add(newMember)
+    db.session.commit()
+    return redirect("/detail/"+str(teamid))
+
+# ログの表示
+@app.route('/log', methods=["post"])
+def log():
+    name = request.form["name"]
+    teamid = request.form["teamid"]
+    start_finish = request.form["start_finish"]
+    datetime = request.form["datetime"]
+    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=datetime)
+    db.session.add(newLog)
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 
