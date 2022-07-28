@@ -55,7 +55,9 @@ def detail(id):
     members_number = len(members)
     logs = Log.query.filter_by(teamid=id).all()
     logs_reverse = list(reversed(logs))
-    return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number)
+    active_users = ActiveUser.query.filter_by(teamid=id).filter_by(start_finish='start').all()
+    active_users_number = len(active_users)
+    return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number, active_users = active_users, aun = active_users_number)
 
 # 名前の登録
 @app.route('/join', methods=["post"])

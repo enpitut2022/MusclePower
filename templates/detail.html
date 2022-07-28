@@ -27,11 +27,11 @@
             アクティブユーザー
         </h2>
         <p>
-            {% for active in active_name %}
+            {% for active in active_users %}
                 {{ active.name }} 
             {% endfor %}
         </p>
-        <p>人数: {{ a_mn }}人</p>
+        <p>人数: {{ aun }}人</p>
         <h2>運動はじめる</h2>
         <form action="/log" method="post">
             名前:
