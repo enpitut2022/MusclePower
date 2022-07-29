@@ -68,19 +68,27 @@ def join():
 def log():
     name = request.form["name"]
     teamid = request.form["teamid"]
-    dt = datetime.datetime.now()
+    # 日本時間
+    DIFF_JST_FROM_UTC = 9
+    dt = datetime.datetime.utcnow() + datetime.timedelta(hours=DIFF_JST_FROM_UTC)
+    # 入力された名前がデータベースにあるかを確認
     MemberSearch = Member.query.filter_by(teamid=teamid).filter_by(name=name).first()
     if MemberSearch == None:
+        # 名前がなかった時、名前をデータベースに追加
         newMember = Member(name=name, teamid=teamid) 
         db.session.add(newMember)
+        # 運動開始
         newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
         db.session.add(newLog)
     else:
+        # 名前があった時
         if MemberSearch.start_finish == 'finish':
+            # その人が運動していなかったら運動を開始
             MemberSearch.start_finish = 'start'
             newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
             db.session.add(newLog)
         else: 
+            # その人が運動していたら運動を終了
             MemberSearch.start_finish = 'finish'
             newLog = Log(name=name, teamid=teamid, start_finish='finish', datetime=dt)
             db.session.add(newLog)
