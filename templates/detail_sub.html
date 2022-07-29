@@ -6,32 +6,49 @@
         <link rel="stylesheet" href="/static/css/style.css">
     </head>
     <body>
-        <h1></h1>
-        <p></p>
+
+        <div class="hamburger">
+            <span></span>
+            <span></span>
+            <span></span>
+          </div>
+          <nav class="globalMenuSp">
+              <ul>
+                  <li><a href="#">Menu</a></li>
+                  <li><a href="#">Menu</a></li>
+                  <li><a href="#">Menu</a></li>
+                  <li><a href="#">Menu</a></li>
+                  <li><a href="#">Menu</a></li>
+                  <li><a href="#">Menu</a></li>
+              </ul>
+          </nav>
+
+        <h1>腹筋</h1>
+        <p>腹筋頑張ろう</p>
         <a href="/">戻る</a>
         
         <h2>参加者一覧</h2>
         <p>
-            
+            taro 植野 sudame ueno junma 腹筋太郎 enpitarou ogawa kenta 新田真剣佑 Mahi 日高
         </p>
-        <p>人数: 人</p>
+        <p>人数: 6人</p>
         <h2>
             アクティブユーザー
         </h2>
         <p>
-            
+            taro 植野 junma 腹筋太郎 ogawa
         </p>
-        <p>人数: 人</p>
+        <p>人数: 3人</p>
         <h2>運動はじめる</h2>
         <form action="/log" method="post">
             名前:
             <input type="text" name="name" placeholder="taro" required> 
-            <input type="hidden" name="teamid" value="{{td.id}}">
             <input type="submit" value="開始/終了" >
         </form>
         <h2>TL</h2>
-        
+
             <p>
+                2022-07-28 09:38:02.652599にMahiさんが運動をfinishしました!
             </p>
        
     </body>
