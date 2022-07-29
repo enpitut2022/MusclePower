@@ -4,6 +4,7 @@
         <title>走れ三日坊主</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css";; rel="stylesheet">
         <link rel="stylesheet" href="/static/css/style.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
     <body>
         <header>
@@ -12,23 +13,42 @@
                 <label for="menu-btn-check" class="menu-btn"><span></span></label>
                 <!--ここからメニュー-->
                 <div class="menu-content">
-                    <ul>
-                        <li>
-                            <a href="#">メニューリンク1</a>
-                        </li>
-                        <li>
-                            <a href="#">メニューリンク2</a>
-                        </li>
-                        <li>
-                            <a href="#">メニューリンク3</a>
-                        </li>
-                    </ul>
+                    <div class="flex-user">
+                        <div class="user">
+                            <p>参加者一覧</p>
+                            {% for i in range(10) %}
+                                <p>やなーん{{ i }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="active-user">
+                            <p>アクティブ</p>
+                            {% for i in range(5) %}
+                                <p>やなーん{{ i }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    <div>
+                        <ul>
+                            {% for i in range(5) %}
+                            <li>
+                                <a href="#">メニューリンク{{ i }}</a>
+                            </li>
+                            {% endfor %}
+                            <li>
+                                <a href="#">メニューリンク2</a>
+                            </li>
+                            <li>
+                                <a href="#">メニューリンク3</a>
+                            </li>
+                        </ul>
+                    </div>
+                    
                 </div>
                 <!--ここまでメニュー-->
             </div>
         </header>
         
-
+<!-- 以前のハンバーガーメニュー(消してもいい)
         <div class="hamburger">
             <span></span>
             <span></span>
@@ -44,7 +64,7 @@
                   <li><a href="#">Menu</a></li>
               </ul>
           </nav>
-
+-->
         <h1>腹筋</h1>
         <p>腹筋頑張ろう</p>
         <a href="/">戻る</a>
@@ -68,10 +88,12 @@
             <input type="submit" value="開始/終了" >
         </form>
         <h2>TL</h2>
-
+        <div class="tl">
+            {% for i in range(30) %}
             <p>
-                2022-07-28 09:38:02.652599にMahiさんが運動をfinishしました!
+                2022-07-28 09:38:02.652599にMahi{{ i }}さんが運動をfinishしました!
             </p>
-       
+            {% endfor %}
+        </div>
     </body>
 </html>

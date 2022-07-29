@@ -101,5 +101,32 @@ h1{
 }
 
 #menu-btn-check:checked ~ .menu-content {
-    left: 0;/*メニューを画面内へ*/
+    left: 30%;/*メニューを画面内へ*/
+}
+
+.tl{
+    text-align: center;
+    font-size: 0.7em;
+    width: auto;
+}
+
+.flex-user{
+    display: flex;
+    margin-top: 70px;
+}
+.flex-user div{
+    width: 35%;
+    padding: 10px;
+}
+.flex-user p{
+    color: #ffffff;
+    margin: 3px;
+}
+.user{
+}
+.active-user{
+}
+
+/* スマホ用設定 */
+@media screen and (max-width: 480px){
 }
