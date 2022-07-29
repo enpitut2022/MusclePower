@@ -2,6 +2,16 @@ h1{
     font-size:6vmax;
 }
 
+body{
+    margin: 15px;
+}
+
+form{
+    width: auto;
+}
+
+/*---サイドメニューCSS---*/
+
 .menu-btn {
     position: fixed;
     top: 10px;

@@ -38,8 +38,8 @@ class Log(db.Model):
 # ルートページ(最初のページ)
 @app.route('/')
 def index():
-    teams = Team.query.all()
-    return render_template("index.html", teams = teams)
+    # teams = Team.query.all()
+    return render_template("index.html")# , teams = teams)
 
 # 各グループの詳細ページ
 @app.route('/detail/<int:id>')
@@ -94,4 +94,4 @@ def detail_sub():
 
 
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
