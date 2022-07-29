@@ -4,6 +4,7 @@
         <title>走れ三日坊主</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css";; rel="stylesheet">
         <link rel="stylesheet" href="/static/css/style.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
     <body>
         <h1>走れ三日坊主</h1>
@@ -11,7 +12,7 @@
         <h2>グループ選択</h2>
 
         {% for team in teams %} 
-            <a href='/detail/{{ team.id }}'>{{ team.name }}</a>
+            <p><a href='/detail/{{ team.id }}'>{{ team.name }}</a></p>
         {% endfor %}
 
         <h2>グループ追加</h2>
@@ -22,7 +23,7 @@
                 <input type="text" name="name" size="30" placeholder="運動内容がわかるグループ名" required>
             </p>
             <textarea name="description" rows="4" cols="40" placeholder="グループの具体的な説明 (例:20分お気に入りの散歩道を歩こう!)" required></textarea>
-            <input type="submit" value="追加">
+            <input type="submit" value="追加" class="btn--blue">
         </form>
     </body>
 </html>
