@@ -4,39 +4,60 @@
         <title>走れ三日坊主</title>
         <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css";; rel="stylesheet">
         <link rel="stylesheet" href="/static/css/style.css">
+        <meta name="viewport" content="width=device-width,initial-scale=1">
     </head>
     <body>
+        <header>
+            <div class="hamburger-menu">
+                <input type="checkbox" id="menu-btn-check">
+                <label for="menu-btn-check" class="menu-btn"><span></span></label>
+                <!--ここからメニュー-->
+                <div class="menu-content">
+                    <div class="flex-user">
+                        <div class="user">
+                            <p>参加者一覧</p>
+                            {% for member in ms %}
+                                <p>{{ member.name }}</p>
+                            {% endfor %}
+                        </div>
+                        <div class="active-user">
+                            <p>アクティブ</p>
+                            {% for active in active_users %}
+                                <p>{{ active.name }}</p>
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                <!--ここまでメニュー-->
+            </div>
+        </header>
         <h1>{{ td.name }}</h1>
         <p>{{ td.description }}</p>
         <a href="/">戻る</a>
-        
-        <h2>参加者一覧</h2>
-        <p>
-            {% for member in ms %}
-                {{ member.name }} 
-            {% endfor %}
-        </p>
-        <p>人数: {{ mn }}人</p>
-        <h2>
-            アクティブユーザー
-        </h2>
-        <p>
-            {% for active in active_users %}
-                {{ active.name }} 
-            {% endfor %}
-        </p>
-        <p>人数: {{ aun }}人</p>
+        <div class="flex-user-number">
+            <div class="user">
+                <p>参加者数</p>
+                <p class="fun">{{ mn }}</p>
+            </div>
+            <div class="active-user">
+                <p>アクティブ人数</p>
+                <p class="fun">{{ aun }}</p>
+            </div>
+        </div>
+        <p>参加者一覧は右上のボタンから見ることができます。</p>
         <h2>運動はじめる</h2>
         <form action="/log" method="post">
             名前:
             <input type="text" name="name" placeholder="taro" required> 
             <input type="hidden" name="teamid" value="{{td.id}}">
-            <input type="submit" value="開始/終了" >
+            <input type="submit" value="開始/終了" class="btn btn--blue">
         </form>
         <h2>TL</h2>
-        {% for log in logs %}
+        <div class="tl">
+            {% for log in logs %}
             <p>{{ log.datetime }}に{{ log.name }}さんが運動を{{ log.start_finish }}しました!
             </p>
         {% endfor %}
+        </div>
     </body>
 </html>
