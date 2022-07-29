@@ -25,6 +25,7 @@ class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
+    start_finish = db.Column(db.String(10), default='start')
 
 # データベースのlogテーブルの定義
 class Log(db.Model):
@@ -32,13 +33,6 @@ class Log(db.Model):
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
     datetime = db.Column(db.DateTime)
-    start_finish = db.Column(db.String(10))
-
-# データベースのactiveuserテーブルの定義
-class ActiveUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    teamid = db.Column(db.Integer)
     start_finish = db.Column(db.String(10))
 
 # ルートページ(最初のページ)
@@ -55,7 +49,7 @@ def detail(id):
     members_number = len(members)
     logs = Log.query.filter_by(teamid=id).all()
     logs_reverse = list(reversed(logs))
-    active_users = ActiveUser.query.filter_by(teamid=id).filter_by(start_finish='start').all()
+    active_users = Member.query.filter_by(teamid=id).filter_by(start_finish='start').all()
     active_users_number = len(active_users)
     return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number, active_users = active_users, aun = active_users_number)
 
@@ -74,21 +68,22 @@ def join():
 def log():
     name = request.form["name"]
     teamid = request.form["teamid"]
-    start_finish = request.form["start_finish"]
     dt = datetime.datetime.now()
-    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=dt)
-    db.session.add(newLog)
-    db.session.commit()
-    ActiveUserSearch = ActiveUser.query.filter_by(teamid=teamid).filter_by(name=name).first()
-    if ActiveUserSearch == None:
-        if start_finish == 'start':
-            newActiveUser = ActiveUser(name=name, teamid=teamid, start_finish=start_finish) 
-            db.session.add(newActiveUser)
+    MemberSearch = Member.query.filter_by(teamid=teamid).filter_by(name=name).first()
+    if MemberSearch == None:
+        newMember = Member(name=name, teamid=teamid) 
+        db.session.add(newMember)
+        newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
+        db.session.add(newLog)
     else:
-        if start_finish  == 'start' and ActiveUserSearch.start_finish == 'finish':
-            ActiveUserSearch.start_finish = 'start'
-        elif start_finish  == 'finish' and ActiveUserSearch.start_finish == 'start':
-            ActiveUserSearch.start_finish = 'finish'
+        if MemberSearch.start_finish == 'finish':
+            MemberSearch.start_finish = 'start'
+            newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
+            db.session.add(newLog)
+        else: 
+            MemberSearch.start_finish = 'finish'
+            newLog = Log(name=name, teamid=teamid, start_finish='finish', datetime=dt)
+            db.session.add(newLog)
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 
