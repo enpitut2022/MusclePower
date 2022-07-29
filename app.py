@@ -45,7 +45,7 @@ def index():
 @app.route('/detail/<int:id>')
 def detail(id):
     teamdata = Team.query.get(id)
-    members = Member.query.filter_by(teamid=id).all()
+    members = Member.query.filter_by(teamid=id).order_by(Member.id).all()
     members_number = len(members)
     logs = Log.query.filter_by(teamid=id).all()
     logs_reverse = list(reversed(logs))
