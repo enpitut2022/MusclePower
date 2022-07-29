@@ -2,19 +2,13 @@
 <html>
     <head>
         <title>走れ三日坊主</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css";; rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/style.css">
     </head>
     <body>
         <h1>{{ td.name }}</h1>
         <p>{{ td.description }}</p>
-        <h2>名前入力フォーム</h2>
-        <div>
-            <form action="/join" method="post">
-                名前:
-                <input type="text" name="name" placeholder="taro" required> 
-                <input type="hidden" name="teamid" value="{{td.id}}">
-                <input type="submit" value="参加">
-            </form>
-        </div>
+        <a href="/">戻る</a>
         
         <h2>参加者一覧</h2>
         <p>
@@ -36,16 +30,13 @@
         <form action="/log" method="post">
             名前:
             <input type="text" name="name" placeholder="taro" required> 
-            <input type="radio" name="start_finish" value="start" checked>開始
-            <input type="radio" name="start_finish" value="finish">終了
             <input type="hidden" name="teamid" value="{{td.id}}">
-            <input type="submit" value="送信">
+            <input type="submit" value="開始/終了" >
         </form>
         <h2>TL</h2>
         {% for log in logs %}
             <p>{{ log.datetime }}に{{ log.name }}さんが運動を{{ log.start_finish }}しました!
             </p>
         {% endfor %}
-        <a href="/">戻る</a>
     </body>
 </html>

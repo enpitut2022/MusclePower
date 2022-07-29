@@ -25,6 +25,7 @@ class Member(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
+    start_finish = db.Column(db.String(10), default='start')
 
 # データベースのlogテーブルの定義
 class Log(db.Model):
@@ -32,13 +33,6 @@ class Log(db.Model):
     name = db.Column(db.String(64))
     teamid = db.Column(db.Integer)
     datetime = db.Column(db.DateTime)
-    start_finish = db.Column(db.String(10))
-
-# データベースのactiveuserテーブルの定義
-class ActiveUser(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(64))
-    teamid = db.Column(db.Integer)
     start_finish = db.Column(db.String(10))
 
 # ルートページ(最初のページ)
@@ -51,44 +45,53 @@ def index():
 @app.route('/detail/<int:id>')
 def detail(id):
     teamdata = Team.query.get(id)
-    members = Member.query.filter_by(teamid=id).all()
+    members = Member.query.filter_by(teamid=id).order_by(Member.id).all()
     members_number = len(members)
     logs = Log.query.filter_by(teamid=id).all()
     logs_reverse = list(reversed(logs))
-    active_users = ActiveUser.query.filter_by(teamid=id).filter_by(start_finish='start').all()
+    active_users = Member.query.filter_by(teamid=id).filter_by(start_finish='start').all()
     active_users_number = len(active_users)
     return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number, active_users = active_users, aun = active_users_number)
 
-# 名前の登録
-@app.route('/join', methods=["post"])
-def join():
+# グループの追加
+@app.route('/addteam', methods=["post"])
+def addteam():
     name = request.form["name"]
-    teamid = request.form["teamid"]
-    newMember = Member(name=name, teamid=teamid)
-    db.session.add(newMember)
+    description = request.form["description"]
+    newTeam = Team(name=name, description=description)
+    db.session.add(newTeam)
     db.session.commit()
-    return redirect("/detail/"+str(teamid))
+    return redirect("/")
 
 # ログの登録
 @app.route('/log', methods=["post"])
 def log():
     name = request.form["name"]
     teamid = request.form["teamid"]
-    start_finish = request.form["start_finish"]
-    dt = datetime.datetime.now()
-    newLog = Log(name=name, teamid=teamid, start_finish=start_finish, datetime=dt)
-    db.session.add(newLog)
-    db.session.commit()
-    ActiveUserSearch = ActiveUser.query.filter_by(teamid=teamid).filter_by(name=name).first()
-    if ActiveUserSearch == None:
-        if start_finish == 'start':
-            newActiveUser = ActiveUser(name=name, teamid=teamid, start_finish=start_finish) 
-            db.session.add(newActiveUser)
+    # 日本時間
+    DIFF_JST_FROM_UTC = 9
+    dt = datetime.datetime.utcnow() + datetime.timedelta(hours=DIFF_JST_FROM_UTC)
+    # 入力された名前がデータベースにあるかを確認
+    MemberSearch = Member.query.filter_by(teamid=teamid).filter_by(name=name).first()
+    if MemberSearch == None:
+        # 名前がなかった時、名前をデータベースに追加
+        newMember = Member(name=name, teamid=teamid) 
+        db.session.add(newMember)
+        # 運動開始
+        newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
+        db.session.add(newLog)
     else:
-        if start_finish  == 'start' and ActiveUserSearch.start_finish == 'finish':
-            ActiveUserSearch.start_finish = 'start'
-        elif start_finish  == 'finish' and ActiveUserSearch.start_finish == 'start':
-            ActiveUserSearch.start_finish = 'finish'
+        # 名前があった時
+        if MemberSearch.start_finish == 'finish':
+            # その人が運動していなかったら運動を開始
+            MemberSearch.start_finish = 'start'
+            newLog = Log(name=name, teamid=teamid, start_finish='start', datetime=dt)
+            db.session.add(newLog)
+        else: 
+            # その人が運動していたら運動を終了
+            MemberSearch.start_finish = 'finish'
+            newLog = Log(name=name, teamid=teamid, start_finish='finish', datetime=dt)
+            db.session.add(newLog)
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 
