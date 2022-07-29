@@ -13,5 +13,16 @@
         {% for team in teams %} 
             <a href='/detail/{{ team.id }}'>{{ team.name }}</a>
         {% endfor %}
+
+        <h2>グループ追加</h2>
+
+        <form action="/addteam" method="post">
+            <p>
+                グループ名:
+                <input type="text" name="name" size="30" placeholder="運動内容がわかるグループ名" required>
+            </p>
+            <textarea name="description" rows="4" cols="40" placeholder="グループの具体的な説明 (例:20分お気に入りの散歩道を歩こう!)" required></textarea>
+            <input type="submit" value="追加">
+        </form>
     </body>
 </html>

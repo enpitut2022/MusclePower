@@ -53,15 +53,15 @@ def detail(id):
     active_users_number = len(active_users)
     return render_template("detail.html", td=teamdata, ms=members, logs=logs_reverse, mn=members_number, active_users = active_users, aun = active_users_number)
 
-# 名前の登録
-@app.route('/join', methods=["post"])
-def join():
+# グループの追加
+@app.route('/addteam', methods=["post"])
+def addteam():
     name = request.form["name"]
-    teamid = request.form["teamid"]
-    newMember = Member(name=name, teamid=teamid)
-    db.session.add(newMember)
+    description = request.form["description"]
+    newTeam = Team(name=name, description=description)
+    db.session.add(newTeam)
     db.session.commit()
-    return redirect("/detail/"+str(teamid))
+    return redirect("/")
 
 # ログの登録
 @app.route('/log', methods=["post"])
