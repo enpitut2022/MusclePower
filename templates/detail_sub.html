@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>走れ三日坊主</title>
+        <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css";; rel="stylesheet">
+        <link rel="stylesheet" href="/static/css/style.css">
+    </head>
+    <body>
+        <h1></h1>
+        <p></p>
+        <a href="/">戻る</a>
+        
+        <h2>参加者一覧</h2>
+        <p>
+            
+        </p>
+        <p>人数: 人</p>
+        <h2>
+            アクティブユーザー
+        </h2>
+        <p>
+            
+        </p>
+        <p>人数: 人</p>
+        <h2>運動はじめる</h2>
+        <form action="/log" method="post">
+            名前:
+            <input type="text" name="name" placeholder="taro" required> 
+            <input type="hidden" name="teamid" value="{{td.id}}">
+            <input type="submit" value="開始/終了" >
+        </form>
+        <h2>TL</h2>
+        
+            <p>
+            </p>
+       
+    </body>
+</html>

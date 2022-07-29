@@ -87,5 +87,11 @@ def log():
     db.session.commit()
     return redirect("/detail/"+str(teamid))
 
+# ルートページ(最初のページ)
+@app.route('/detail_sub')
+def detail_sub():
+    return render_template("detail_sub.html")
+
+
 if __name__ == '__main__':
-    app.run()
+    app.run(debug=True)
